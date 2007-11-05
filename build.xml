@@ -38,8 +38,8 @@
   </tstamp>
   <property name="version" value="${majorVersionNumber}.${minorVersionNumber}.${DAYSTAMP}" />
 
-	<!-- Hackystat sensor configuration information. -->
-	<property name="hackystat.verbose.mode" value="true"/>
+  <!-- Hackystat sensor configuration information. -->
+  <property name="hackystat.verbose.mode" value="true"/>
 	
   <!-- Basic directory structure. -->
   <property name="src.dir" location="${basedir}/src" />
@@ -81,7 +81,6 @@
       </manifest>
     </jar>
   </target>
-
 </project>
 
 
