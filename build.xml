@@ -1,4 +1,4 @@
-<project name="stackyhack" default="jar">
+<project name="stackyhack" default="compile">
   <description>
   The basic build file for the Stack system. 
   Invocation: ant
@@ -30,7 +30,7 @@
   <fail message="This package requires JUNIT_HOME to be defined and ${junit.jar} available" unless="junit.available" />
 
   <!-- Basic properties for this system. -->
-  <property name="system.name" value="stack" />
+  <property name="system.name" value="stackyhack" />
   <property name="majorVersionNumber" value="8" />
   <property name="minorVersionNumber" value="0" />
   <tstamp>
