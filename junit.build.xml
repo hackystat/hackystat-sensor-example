@@ -1,0 +1,52 @@
+<project name="junit" default="junit">
+  <description>
+    Runs junit on system, using tests in classes whose names start with Test*.
+    Invocation: ant -f junit.build.xml
+  </description>
+
+  <import file="build.xml" />
+  <property name="junit.dir" location="${build.dir}/junit" />
+  <property name="junit.haltonfailure" value="false" />
+
+  <target name="junit"
+          depends="junit.tool, junit.report, junit.sensor"
+          description="Runs JUnit, JunitReport, and the JUnit sensor." />
+
+  <target name="junit.tool" depends="compile" description="Run JUnit tests.">
+    <mkdir dir="${junit.dir}" />
+    <!-- Run the tests, which are all classes whose name starts with 'Test'. -->
+    <junit printsummary="withOutAndErr" haltonfailure="${junit.haltonfailure}">
+      <classpath>
+        <pathelement location="${build.dir}/classes" />
+        <path refid="compile.classpath" />
+      </classpath>
+      <formatter type="xml" />
+      <batchtest todir="${junit.dir}">
+        <fileset dir="${src.dir}" includes="**/Test*.java" />
+      </batchtest>
+    </junit>
+  </target>
+
+  <target name="junit.report" description="Generates an HTML report for JUnit.">
+    <taskdef name="junitreport"
+             classname="org.apache.tools.ant.taskdefs.optional.junit.XMLResultAggregator" />
+    <junitreport todir="${junit.dir}">
+      <fileset dir="${junit.dir}" includes="TEST-*.xml" />
+      <report format="frames" todir="${junit.dir}" />
+    </junitreport>
+  </target>
+	
+	<target name="junit.sensor" unless="junit.disabled" description="Sends UnitTest data to Hackystat using the JUnit sensor.">
+	  <available file="${env.HACKYSTAT_ANTSENSORS_HOME}/antsensors.jar" type="file" property="hackystat.antsensors.available"/>
+	  <fail message="${env.HACKYSTAT_ANTSENSORS_HOME}/antsensors.jar could not be found." unless="hackystat.antsensors.available"/>   
+	  <taskdef resource="antlib.xml" classpath="${env.HACKYSTAT_ANTSENSORS_HOME}/antsensors.jar"/>
+	        
+	  <!-- Send JUnit test data to Hackystat using the JUnit sensor. -->
+	  <hacky-junit verbose="true" sourcePath="${src.dir}">
+	    <fileset dir="${junit.dir}" includes="TEST-*.xml"/>
+	  </hacky-junit>
+	</target>
+</project>
+
+
+
