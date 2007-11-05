@@ -1,0 +1,174 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+  <head>
+    <title>Stack Release History</title>
+  </head>
+
+  <body>
+    <h1 align="center">Stack Release History</h1>
+    <p align="center"><a href="http://csdl.ics.hawaii.edu/~johnson/">Philip
+    Johnson</a><br>
+    <a href="http://csdl.ics.hawaii.edu/">Collaborative Software Development
+    Laboratory</a><br>
+    <a href="http://www.hawaii.edu/">University of Hawaii&nbsp;</a></p>
+
+
+    <p align="center">$Id: History.html,v 1.5 2004/10/27 02:41:57 johnson Exp $</p>
+
+<p
+<p>
+This page provides a history of releases in reverse chronological order.
+
+<p
+<p>
+&nbsp;
+<table width="100%" border="1">
+<tr><th valign="top">Date<th valign="top">Release<th valign="top">Major Enhancements
+<tr>
+<td valign="top"> 06-Sept-2006
+<td valign="top"> 4.0.906
+<td valign="top">
+<ul>
+  <li>Brand new version, which provides modularized build.xml files. Initial
+    tool support includes: javac, jar, javadoc, junit, pmd, checkstyle, findbugs,
+    sclc.&nbsp; Tools omitted for now: Emma, JBlanket, DependencyFinder, and all
+    Hackystat sensor targets.&nbsp;</li>
+  <li>Requires Java 5, Ant 1.7.x.</li>
+</ul>
+</tr>
+<tr>
+<td valign="top"> 11-Feb-2005
+<td valign="top"> 3.4.211
+<td valign="top">
+<ul>
+  <li>Refactored Hackystat sensors into new package 'StackyHack'. No Hackystat stuff here.</li>
+  <li>Ant call to DependencyFinder now included.</li>
+</ul>
+</tr>
+
+<tr>
+<td valign="top"> 10/27/2004
+<td valign="top"> 3.3.1027
+<td valign="top">
+<ul>
+  <li>Added JUnit, LOCC, Build, and JBlanket sensors.</li>
+</ul>
+</tr>
+
+<tr>
+<td valign="top"> 09/21/2004
+<td valign="top"> 3.2.921
+<td valign="top">
+<ul>
+  <li>Removed duplicate junit taskdef to remove warning.</li>
+  <li>Removed extraneous constructor(String) from unit test class.</li>
+  <li>Improved documentation.&nbsp;</li>
+</ul>
+</tr>
+<tr>
+<td valign="top"> 09/20/2004
+<td valign="top"> 3.2.920
+<td valign="top">
+<ul>
+  <li>Updated to Ant 1.6, removed JBlanket support to simplify build system for
+    beginning of semester.</li>
+</ul>
+</tr>
+<tr>
+<td valign="top"> 09/29/2003
+<td valign="top"> 3.1.929
+<td valign="top">
+<ul>
+  <li>Fixes to JBlanket coverage in Ant task.</li>
+</ul>
+</tr>
+<tr>
+<td valign="top"> 09/24/2003
+<td valign="top"> 3.1.924
+<td valign="top">
+<ul>
+  <li>Added JBlanket coverage.</li>
+</ul>
+</tr>
+<tr>
+<td valign="top"> 09/10/2003
+<td valign="top"> 3.0.910
+<td valign="top">
+<ul>
+  <li>Updated the package to conform to latest Ant version and new JOSSE
+    conventions.</li>
+  <li>Deleted Debug class in preparation for conversion to logging class.</li>
+</ul>
+</tr>
+<tr>
+<td valign="top"> 03/30/2002
+<td valign="top"> 2.0330
+<td valign="top">
+<ul>
+  <li>Made the Stack and ClearStack classes serializable to support StackMVCdb.</li>
+  <li>Added a toString() method to Stack to simplify debugging.
+</ul>
+</tr>
+
+<tr>
+<td valign="top"> 3/08/2002
+<td valign="top"> 2.0308
+<td valign="top">
+<ul>
+  <li>Deleted Assert.java from project. Not used.
+  <li>Added subclass ClearStack with iterator() method. This subclass supports
+  the display of stack contents in StackMVC better than the toArray() method,
+  which required copying the entire stack.
+</ul>
+</tr>
+
+<tr>
+<td valign="top"> 2/11/2002
+<td valign="top"> 2.0211
+<td valign="top">
+<ul>
+  <li>Improved test cases to call assertSame rather than assertTrue.</li>
+  <li>Improved naming of test methods.</li>
+  <li>Improved build.xml to use ${java.class.path} in junit and javadoc tasks.</li>
+</ul>
+</tr>
+
+<tr>
+<td valign="top"> 1/22/2002
+<td valign="top"> 2.0122
+<td valign="top">
+<ul>
+  <li>Restructured with improved internal file and directory structure.</li>
+</ul>
+</tr>
+
+<tr>
+<td valign="top"> 11/25/2001
+<td valign="top"> 1.1125
+<td valign="top">
+<ul>
+<li> Added taskdefs for LOCC and j2h and jar files to Ant1.3\lib
+<li> Updated build.xml with dist, j2h, and locc tasks.
+</ul>
+
+<tr>
+<td valign="top"> 10/15/2001
+<td valign="top"> 1.1015
+<td valign="top">
+<ul>
+<li> Removed build.bat, added setenv.bat and Ant1.3.
+</ul>
+
+<tr>
+<td valign="top"> 9/5/2001
+<td valign="top"> 1.0905
+<td valign="top">
+<ul>
+<li> Initial release to class.
+</ul>
+
+</tr>
+
+</table>
+</body>
+</html>
