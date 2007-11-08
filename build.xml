@@ -30,7 +30,7 @@
   <fail message="This package requires JUNIT_HOME to be defined and ${junit.jar} available" unless="junit.available" />
 
   <!-- Basic properties for this system. -->
-  <property name="system.name" value="stackyhack" />
+  <property name="system.name" value="hackystat-sensor-example" />
   <property name="majorVersionNumber" value="8" />
   <property name="minorVersionNumber" value="0" />
   <tstamp>
