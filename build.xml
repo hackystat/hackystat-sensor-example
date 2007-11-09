@@ -69,18 +69,6 @@
     <fixcrlf srcdir="${basedir}" includes="*.build.xml" />
   </target>
 
-  <target name="jar" depends="compile" description="Create the jar file for this system in the build dir.">
-    <mkdir dir="${build.dir}/jar" />
-    <jar jarfile="${build.dir}/jar/${system.name}.jar" basedir="${build.dir}/classes" includes="edu/**">
-      <manifest>
-        <attribute name="Built-By" value="${user.name}" />
-        <attribute name="Main-Class" value="${system.main.class}" />
-        <attribute name="Specification-Title" value="${system.name}" />
-        <attribute name="Specification-Vendor" value="${system.vendor}" />
-        <attribute name="Specification-Version" value="${version}" />
-      </manifest>
-    </jar>
-  </target>
 </project>
 
 
