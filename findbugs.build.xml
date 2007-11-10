@@ -7,7 +7,7 @@
   <property environment="env" />
   <import file="build.xml" />
   <property name="findbugs.dir" location="${build.dir}/findbugs" />
-  <property name="findbugs.failOnError" value="true" />
+  <property name="findbugs.failOnError" value="false" />
 
   <target name="findbugs" depends="findbugs.tool, findbugs.report, findbugs.sensor" description="Runs the FindBugs tool, report, and sensor." />
 
@@ -36,16 +36,16 @@
     <xslt in="${findbugs.dir}/findbugs.xml" style="${env.FINDBUGS_HOME}/src/xsl/default.xsl" out="${findbugs.dir}/findbugs-default.html" />
   </target>
 
-	<target name="findbugs.sensor" unless="findbugs.disabled" description="Sends CodeIssue data to Hackystat using the Findbugs sensor.">
-	  <available file="${env.HACKYSTAT_ANTSENSORS_HOME}/antsensors.jar" type="file" property="hackystat.antsensors.available"/>
-	  <fail message="${env.HACKYSTAT_ANTSENSORS_HOME}/antsensors.jar could not be found." unless="hackystat.antsensors.available"/>   
-	  <taskdef resource="antlib.xml" classpath="${env.HACKYSTAT_ANTSENSORS_HOME}/antsensors.jar"/>
+  <target name="findbugs.sensor" unless="findbugs.disabled" description="Sends CodeIssue data to Hackystat using the Findbugs sensor.">
+    <available file="${env.HACKYSTAT_ANTSENSORS_HOME}/antsensors.jar" type="file" property="hackystat.antsensors.available" />
+    <fail message="${env.HACKYSTAT_ANTSENSORS_HOME}/antsensors.jar could not be found." unless="hackystat.antsensors.available" />
+    <taskdef resource="antlib.xml" classpath="${env.HACKYSTAT_ANTSENSORS_HOME}/antsensors.jar" />
 
-	  <!-- Send the code issue information to the hackystat server. -->
-	  <hacky-findbugs verbose="${hackystat.verbose.mode}">
-	    <fileset file="${findbugs.dir}/findbugs.xml"/>
-	  </hacky-findbugs>
-	</target>
+    <!-- Send the code issue information to the hackystat server. -->
+    <hacky-findbugs verbose="${hackystat.verbose.mode}">
+      <fileset file="${findbugs.dir}/findbugs.xml" />
+    </hacky-findbugs>
+  </target>
 </project>
 
 
