@@ -9,13 +9,10 @@
 
   <target name="sclc" depends="sclc.tool, sclc.xslt, sclc.sensor" description="Runs SCLC and the SCLC sensor." />
 
-  <target name="sclc.tool"
-          depends="compile, clean"
-          description="Compute size data on the source code using SCLC.">
+  <target name="sclc.tool" depends="compile, clean" description="Compute size data on the source code using SCLC.">
     <!-- Check for the SCLC_HOME environment variable, failing the build if it can't be found. -->
     <available file="${env.SCLC_HOME}/src/sclc" property="sclc.available" />
-    <fail unless="sclc.available"
-          message="Error: SCLC_HOME not set or file 'sclc' not found, indicating SCLC is not installed." />
+    <fail unless="sclc.available" message="Error: SCLC_HOME not set or file 'sclc' not found, indicating SCLC is not installed." />
     <mkdir dir="${sclc.dir}" />
 
     <!-- Run size data using SCLC.  Invoke Perl via the exec task to run SCLC. -->
@@ -23,19 +20,19 @@
       <arg line="${env.SCLC_HOME}/src/sclc -default_exclude -ignore -xml_output ${sclc.dir}/size.xml -recurse ${basedir}" />
     </exec>
   </target>
-	
+
   <target name="sclc.xslt" description="Runs XSL Transform over SCLC XML to make the XML compatible with XmlData.">
     <!-- Transform SCLC v2.5 data to work with XmlData sensor for Hackystat v8. -->
-    <xslt in="${sclc.dir}/size.xml" out="${sclc.dir}/transform-size.xml" style="${lib.dir}/sclc/sclc.xsl"/>
+    <xslt in="${sclc.dir}/size.xml" out="${sclc.dir}/transform-size.xml" style="${lib.dir}/sclc/sclc.xsl" />
   </target>
-	
+
   <target name="sclc.sensor" description="Sends data to Hackystat via the XmlData sensor.">
-    <available file="${env.HACKYSTAT_XMLDATA_HOME}/xmldata-cli.jar" property="xmldata.available"/>
-    <fail unless="xmldata.available" message="Error: HACKYSTAT_XMLDATA_HOME not set or ${env.HACKYSTAT_XMLDATA_HOME}/xmldata-cli.jar not found."/>
-                
+    <available file="${env.HACKYSTAT_XMLDATA_HOME}/xmldata-cli.jar" property="xmldata.available" />
+    <fail unless="xmldata.available" message="Error: HACKYSTAT_XMLDATA_HOME not set or ${env.HACKYSTAT_XMLDATA_HOME}/xmldata-cli.jar not found." />
+
     <!-- Invoke XmlData by executing the jar file and passing in command line args. -->
     <java jar="${env.HACKYSTAT_XMLDATA_HOME}/xmldata-cli.jar" fork="true">
-      <arg line="-uniqueTimestamps -file ${sclc.dir}/transform-size.xml"/>
+      <arg line="-uniqueTimestamps -file ${sclc.dir}/transform-size.xml" />
     </java>
   </target>
 </project>

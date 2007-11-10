@@ -11,16 +11,12 @@
   <property name="pmd.dir" location="${build.dir}/pmd" />
   <property name="pmd.failonerror" value="false" />
 
-  <target name="pmd"
-          depends="pmd.tool, pmd.report, pmd.sensor"
-          description="Runs the PMD tool, report, and sensor." />
+  <target name="pmd" depends="pmd.tool, pmd.report, pmd.sensor" description="Runs the PMD tool, report, and sensor." />
 
-  <target name="pmd.tool"
-          description="Runs PMD over the source code to check for problems.">
+  <target name="pmd.tool" description="Runs PMD over the source code to check for problems.">
     <!-- Fail this target if PMD is not installed. -->
     <available file="${env.PMD_HOME}/lib/${pmd.jar}" property="pmd.available" />
-    <fail unless="pmd.available"
-          message="Error: PMD_HOME not set or ${pmd.jar} not found." />
+    <fail unless="pmd.available" message="Error: PMD_HOME not set or ${pmd.jar} not found." />
     <taskdef name="pmd" classname="net.sourceforge.pmd.ant.PMDTask">
       <classpath>
         <fileset dir="${env.PMD_HOME}/lib" includes="*.jar" />
@@ -29,36 +25,28 @@
 
     <!-- Run PMD -->
     <mkdir dir="${pmd.dir}" />
-    <pmd rulesetfiles="${basedir}/lib/pmd/pmd.rulesets.xml"
-         shortFilenames="true"
-         targetjdk="1.5"
-         failuresPropertyName="pmd.failure.count"
-         failonerror="${pmd.failonerror}"
-         failOnRuleViolation="${pmd.failonerror}">
+    <pmd rulesetfiles="${basedir}/lib/pmd/pmd.rulesets.xml" shortFilenames="true" targetjdk="1.5" failuresPropertyName="pmd.failure.count" failonerror="${pmd.failonerror}" failOnRuleViolation="${pmd.failonerror}">
       <formatter type="xml" toFile="${pmd.dir}/pmd.xml" />
       <fileset dir="${src.dir}" includes="**/*.java" />
     </pmd>
     <echo message="PMD found ${pmd.failure.count} problem(s)." />
   </target>
 
-  <target name="pmd.report"
-          description="Generates HTML reports on the PMD output.">
-    <xslt in="${pmd.dir}/pmd.xml"
-          style="${env.PMD_HOME}/etc/xslt/pmd-report-per-class.xslt"
-          out="${pmd.dir}/pmd-report-per-class.html" />
+  <target name="pmd.report" description="Generates HTML reports on the PMD output.">
+    <xslt in="${pmd.dir}/pmd.xml" style="${env.PMD_HOME}/etc/xslt/pmd-report-per-class.xslt" out="${pmd.dir}/pmd-report-per-class.html" />
   </target>
 
   <target name="pmd.sensor" description="Sends CodeIssue data to Hackystat using the PMD sensor.">
-  	<available file="${env.HACKYSTAT_ANTSENSORS_HOME}/antsensors.jar" type="file" property="hackystat.antsensors.available"/>
-  	<fail message="${env.HACKYSTAT_ANTSENSORS_HOME}/antsensors.jar could not be found." unless="hackystat.antsensors.available"/>   
-  	<taskdef resource="antlib.xml" classpath="${env.HACKYSTAT_ANTSENSORS_HOME}/antsensors.jar"/>
+    <available file="${env.HACKYSTAT_ANTSENSORS_HOME}/antsensors.jar" type="file" property="hackystat.antsensors.available" />
+    <fail message="${env.HACKYSTAT_ANTSENSORS_HOME}/antsensors.jar could not be found." unless="hackystat.antsensors.available" />
+    <taskdef resource="antlib.xml" classpath="${env.HACKYSTAT_ANTSENSORS_HOME}/antsensors.jar" />
 
-  	<hacky-pmd verbose="${hackystat.verbose.mode}">
-    	<fileset file="${pmd.dir}/pmd.xml"/>
-    	<sourcePath>
-      	<fileset dir="${src.dir}" includes="**/*.java" excludes="**/jaxb/**"/>
-    	</sourcePath>
-  	</hacky-pmd>
-</target>  
+    <hacky-pmd verbose="${hackystat.verbose.mode}">
+      <fileset file="${pmd.dir}/pmd.xml" />
+      <sourcePath>
+        <fileset dir="${src.dir}" includes="**/*.java" excludes="**/jaxb/**" />
+      </sourcePath>
+    </hacky-pmd>
+  </target>
 </project>
 
