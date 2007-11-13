@@ -13,7 +13,7 @@
 
   <target name="pmd" depends="pmd.tool, pmd.report, pmd.sensor" description="Runs the PMD tool, report, and sensor." />
 
-  <target name="pmd.tool" description="Runs PMD over the source code to check for problems.">
+  <target name="pmd.tool" depends="compile" description="Runs PMD over the source code to check for problems.">
     <!-- Fail this target if PMD is not installed. -->
     <available file="${env.PMD_HOME}/lib/${pmd.jar}" property="pmd.available" />
     <fail unless="pmd.available" message="Error: PMD_HOME not set or ${pmd.jar} not found." />
