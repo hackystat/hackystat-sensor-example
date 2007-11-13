@@ -76,6 +76,7 @@ public class Stack {
    *
    * @return The stack as a string.
    */
+  @Override
   public String toString() {
     return "[Stack " + this.elements + "]";
   }

@@ -4,16 +4,17 @@
 </description>
   <import file="build.xml" />
   <property name="svn.repository.name" value="Hackystat" />
-  <property name="svn.repository.url" value="https://hackystat-sensor-xmldata.googlecode.com/svn/trunk" />
+  <property name="svn.repository.url" value="http://hackystat-sensor-xmldata.googlecode.com/svn/trunk" />
   
   <!--
     Important Note:  This task will not work correctly unless the following properties are 
     given functional values on the command line using the -D syntax:
-      ant -Dhackystat.default.username=... -Dhackystat.default.password=... -f svn.build.xml
+      ant -Ddefault.username=... -Ddefault.password=... -Ddefault.sensorbase=... -f svn.build.xml
     See the StackyHack User Guide for details.
   -->
-  <property name="hackystat.default.account" value="defaultHackystatUser" />
-  <property name="hackystat.default.password" value="defaultHackystatPassword" />
+  <fail message="Must specify -Ddefault.account={account} on command line." unless="default.account"/>
+  <fail message="Must specify -Ddefault.password={pw} on command line." unless="default.password"/>
+  <fail message="Must specify -Ddefault.sensorbase={sensorbase} on command line." unless="default.sensorbase"/>
 
   <target name="svn.sensor" description="Sends Subversion commit data to Hackystat using the Subversion sensor.">
     <property environment="env" />
@@ -22,6 +23,12 @@
     <taskdef resource="antlib.xml" classpath="${env.HACKYSTAT_ANTSENSORS_HOME}/antsensors.jar" />
 
     <!-- Send Subversion data to Hackystat using the Subversion sensor. -->
-    <hacky-svn repositoryName="${svn.repository.name}" repositoryUrl="${svn.repository.url}" userName="${svn.username}" password="${svn.password}" fromDate="2007-10-16" toDate="2007-11-16" defaultHackystatAccount="${hackystat.default.account}" defaultHackystatPassword="${hackystat.default.password}" verbose="${hackystat.verbose.mode}" />
+    <hacky-svn repositoryName="${svn.repository.name}" 
+               repositoryUrl="${svn.repository.url}" 
+               fromDate="2007-10-16" toDate="2007-10-17" 
+               defaultHackystatAccount="${default.account}" 
+               defaultHackystatPassword="${default.password}" 
+               defaultHackystatSensorbase="${default.sensorbase}" 
+               verbose="${hackystat.verbose.mode}" />
   </target>
 </project>
