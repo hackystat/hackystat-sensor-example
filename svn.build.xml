@@ -25,6 +25,7 @@
     <!-- Send Subversion data to Hackystat using the Subversion sensor. -->
     <hacky-svn repositoryName="${svn.repository.name}" 
                repositoryUrl="${svn.repository.url}" 
+               fileNamePrefix="file://hackystat-sensor-xmldata"
                fromDate="2007-10-16" toDate="2007-10-17" 
                defaultHackystatAccount="${default.account}" 
                defaultHackystatPassword="${default.password}" 
