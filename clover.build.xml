@@ -1,0 +1,67 @@
+<project name="clover" default="clover" xmlns:hackystat="org.hackystat.sensor.ant">
+  <description>
+    Runs clover on system to generate information on size.
+    Invocation: ant -f clover.build.xml
+  </description>
+
+  <import file="build.xml" />
+  <property name="clover.dir" location="${build.dir}/clover" />
+  <property name="clover.db.dir" location="${build.dir}/cloverdb" />
+  <property name="junit.dir" location="${build.dir}/junit" />
+  <property name="junit.haltonfailure" value="false" />
+
+  <target name="clover" depends="clover.setup, clover.tool, clover.report" />
+
+  <target name="clover.setup" depends="pre-compile, compile" description="Runs Clover and the Clover sensor." />
+  <taskdef resource="cloverlib.xml" classpath="${env.CLOVER_HOME}\lib\clover.jar"/>
+  <target name="pre-compile" >
+    <mkdir dir="${clover.db.dir}"/>
+    <clover-setup initstring="${clover.db.dir}/clover.db" flushpolicy="threaded" flushinterval="1" />
+  </target>
+
+  <target name="clover.tool" depends="pre-compile, compile" 
+      description="Cleans, compiles, instruments byte codes, runs unit tests, generates clover report.">
+    <mkdir dir="${clover.dir}" />
+    <mkdir dir="${junit.dir}" />
+    <junit printsummary="withOutAndErr" haltonfailure="${junit.haltonfailure}">
+      <classpath>
+        <pathelement location="${env.CLOVER_HOME}\lib\clover.jar" />
+        <pathelement location="${build.dir}/classes" />
+        <pathelement location="${java.class.path}" />
+        <path refid="compile.classpath" />
+      </classpath>
+      <formatter type="xml" />
+      <batchtest todir="${junit.dir}">
+        <fileset dir="${src.dir}" includes="**/Test*.java" />
+      </batchtest>
+    </junit>
+    
+    <echo message="waiting 5 seconds for clover data to flush"/>
+    <waitfor maxwait="5" maxwaitunit="second" >
+      <available file="UNOBTAINABLE.FILE.UNOBTAINABLE"/>
+    </waitfor>
+  </target>
+
+  <target name="clover.report" >
+    <clover-report initstring="${clover.db.dir}/clover.db">
+      <current outfile="${clover.dir}/coverage.xml">
+        <format type="xml"/>
+      </current>
+    </clover-report>
+    <clover-html-report initstring="${clover.db.dir}/clover.db" 
+  	outdir="${clover.dir}"
+  	title="Clover Coverage"/>
+  </target>
+
+  <target name="clover.sensor" unless="clover.disabled" description="Sends Clover coverage data to Hackystat using the Clover sensor.">
+    <available file="${env.HACKYSTAT_ANTSENSORS_HOME}/antsensors.jar" type="file" property="hackystat.antsensors.available" />
+    <fail message="${env.HACKYSTAT_ANTSENSORS_HOME}/antsensors.jar could not be found." unless="hackystat.antsensors.available" />
+    <taskdef resource="antlib.xml" classpath="${env.HACKYSTAT_ANTSENSORS_HOME}/antsensors.jar" />
+
+    <!-- Send Coverage data to Hackystat using the Clover sensor. --> 
+    <hacky-clover verbose="${hackystat.verbose.mode}" cloverReportXmlFile="${clover.dir}/coverage.xml">
+      <fileset dir="${src.dir}" includes="**/*.java" />
+    </hacky-clover>
+  </target>
+</project>
+
