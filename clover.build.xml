@@ -10,7 +10,7 @@
   <property name="junit.dir" location="${build.dir}/junit" />
   <property name="junit.haltonfailure" value="false" />
 
-  <target name="clover" depends="clover.setup, clover.tool, clover.report" />
+  <target name="clover" depends="clover.setup, clover.tool, clover.report, clover.sensor" />
 
   <target name="clover.setup" depends="pre-compile, compile" description="Runs Clover and the Clover sensor." />
   <taskdef resource="cloverlib.xml" classpath="${env.CLOVER_HOME}\lib\clover.jar"/>
