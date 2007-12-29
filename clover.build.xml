@@ -15,6 +15,8 @@
   <target name="clover.setup" depends="pre-compile, compile" description="Runs Clover and the Clover sensor." />
   <taskdef resource="cloverlib.xml" classpath="${env.CLOVER_HOME}\lib\clover.jar"/>
   <target name="pre-compile" >
+    <!-- Now delete the instrumented .class files. -->
+    <delete dir="${build.dir}/classes" />
     <mkdir dir="${clover.db.dir}"/>
     <clover-setup initstring="${clover.db.dir}/clover.db" flushpolicy="threaded" flushinterval="1" />
   </target>
@@ -48,9 +50,9 @@
         <format type="xml"/>
       </current>
     </clover-report>
-    <clover-html-report initstring="${clover.db.dir}/clover.db" 
-  	outdir="${clover.dir}"
-  	title="Clover Coverage"/>
+    <clover-html-report initstring="${clover.db.dir}/clover.db" outdir="${clover.dir}" title="Clover Coverage"/>
+    <!-- Now delete the instrumented .class files. -->
+    <delete dir="${build.dir}/classes" />
   </target>
 
   <target name="clover.sensor" unless="clover.disabled" description="Sends Clover coverage data to Hackystat using the Clover sensor.">
