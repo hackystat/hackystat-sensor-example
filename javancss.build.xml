@@ -3,7 +3,7 @@
 
   <property environment="env" />
   <import file="build.xml" />
-    <property name="javancss.dir" location="${build.dir}/javancss" />
+  <property name="javancss.dir" location="${build.dir}/javancss" />
   <property name="javancss.failOnError" value="false" />
 
   <target name="javancss" depends="javancss.tool,javancss.report,javancss.sensor" description="Runs the javancss tool" />
