@@ -26,4 +26,7 @@
     description="Fast build for production purposes. No sensors.">
   </target>
   
+  <target name="hudson.daily" description="Do nothing for daily QA."/> 
+
+
 </project>
