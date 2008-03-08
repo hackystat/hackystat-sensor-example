@@ -41,7 +41,7 @@
     <fail message="${env.HACKYSTAT_ANTSENSORS_HOME}/antsensors.jar could not be found." unless="hackystat.antsensors.available" />
     <taskdef resource="antlib.xml" classpath="${env.HACKYSTAT_ANTSENSORS_HOME}/antsensors.jar" />
 
-    <hacky-pmd verbose="${hackystat.verbose.mode}">
+    <hacky-pmd verbose="${hackystat.verbose.mode}" retryAttempts="3" retryWaitInterval="5">
       <datafiles>
         <fileset file="${pmd.dir}/pmd.xml" />
       </datafiles>
