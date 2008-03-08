@@ -39,8 +39,13 @@
     <taskdef resource="antlib.xml" classpath="${env.HACKYSTAT_ANTSENSORS_HOME}/antsensors.jar" />
 
     <!-- Send JUnit test data to Hackystat using the JUnit sensor. -->
-    <hacky-junit verbose="true" sourcePath="${src.dir}">
-      <fileset dir="${junit.dir}" includes="TEST-*.xml" />
+    <hacky-junit verbose="true" failOnError="true">
+      <sourcefiles>
+        <fileset dir="${src.dir}" includes="**/*.java"/>
+      </sourcefiles>
+      <datafiles>
+        <fileset dir="${junit.dir}" includes="TEST-*.xml" />
+      </datafiles>
     </hacky-junit>
   </target>
 </project>

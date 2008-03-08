@@ -37,8 +37,10 @@
     <taskdef resource="antlib.xml" classpath="${env.HACKYSTAT_ANTSENSORS_HOME}/antsensors.jar" />
 
     <!-- Send Checkstyle data to hackystat using the Checkstyle sensor. -->
-    <hacky-checkstyle verbose="${hackystat.verbose.mode}">
-      <fileset file="${checkstyle.dir}/checkstyle.xml" />
+    <hacky-checkstyle verbose="${hackystat.verbose.mode}" failOnError="true">
+      <datafiles>
+        <fileset file="${checkstyle.dir}/checkstyle.xml" />
+      </datafiles>
     </hacky-checkstyle>
   </target>
 

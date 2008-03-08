@@ -42,10 +42,12 @@
     <taskdef resource="antlib.xml" classpath="${env.HACKYSTAT_ANTSENSORS_HOME}/antsensors.jar" />
 
     <hacky-pmd verbose="${hackystat.verbose.mode}">
-      <fileset file="${pmd.dir}/pmd.xml" />
-      <sourcePath>
+      <datafiles>
+        <fileset file="${pmd.dir}/pmd.xml" />
+      </datafiles>
+      <sourcefiles>
         <fileset dir="${src.dir}" includes="**/*.java" excludes="**/jaxb/**" />
-      </sourcePath>
+      </sourcefiles>
     </hacky-pmd>
   </target>
 </project>

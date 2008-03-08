@@ -69,8 +69,13 @@
     <taskdef resource="antlib.xml" classpath="${env.HACKYSTAT_ANTSENSORS_HOME}/antsensors.jar" />
 
     <!-- Send Coverage data to Hackystat using the Emma sensor. -->
-    <hacky-emma verbose="${hackystat.verbose.mode}" emmaReportXmlFile="${emma.dir}/coverage.xml">
-      <fileset dir="${src.dir}" includes="**/*.java" />
+    <hacky-emma verbose="${hackystat.verbose.mode}" failOnError="true">
+      <datafiles>
+        <fileset file="${emma.dir}/coverage.xml"/>
+      </datafiles>
+      <sourcefiles>
+        <fileset dir="${src.dir}" includes="**/*.java" />
+      </sourcefiles>
     </hacky-emma>
   </target>
 </project>
