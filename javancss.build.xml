@@ -29,10 +29,20 @@
     </javancss>
   </target>
   
-  <target name="javancss.sensor" unless="javancss.disabled" description="Sends JavaNCSS FileMetric data to Hackystat.">
-    <fileset id="javancss.sourcefiles" dir="${src.dir}" includes="**/*.java" />
-    <fileset id="javancss.datafiles" file="${javancss.dir}/javancss.xml" />
-    <hackystat.javancss javancss.datafiles.fileset="javancss.datafiles" javancss.sourcefiles.fileset="javancss.sourcefiles" verbose="${hackystat.verbose.mode}" />
+  <target name="javancss.sensor" unless="javancss.disabled" description="Sends FileMetric complexity data to Hackystat using the JavaNCSS sensor.">
+    <available file="${env.HACKYSTAT_ANTSENSORS_HOME}/antsensors.jar" type="file" property="hackystat.antsensors.available" />
+    <fail message="${env.HACKYSTAT_ANTSENSORS_HOME}/antsensors.jar could not be found." unless="hackystat.antsensors.available" />
+    <taskdef resource="antlib.xml" classpath="${env.HACKYSTAT_ANTSENSORS_HOME}/antsensors.jar" />
+
+    <!-- Send FileMetric complexity test data to Hackystat using the JavaNCSS sensor. -->
+    <hacky-javancss verbose="${hackystat.verbose.mode}" failOnError="true">
+      <sourcefiles>
+        <fileset dir="${src.dir}" includes="**/*.java"/>
+      </sourcefiles>
+      <datafiles>
+        <fileset file="${javancss.dir}/javancss.xml" />
+      </datafiles>
+    </hacky-javancss>
   </target>
 
 </project>
