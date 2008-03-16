@@ -1,4 +1,4 @@
-<project name="hudson" default="hudson.basic">
+<project name="hudson.stackyhack" default="hudson.basic">
   <description>
     Targets for Hudson continuous integration.
   </description>
@@ -26,7 +26,13 @@
     description="Fast build for production purposes. No sensors.">
   </target>
   
-  <target name="hudson.daily" description="Do nothing for daily QA."/> 
+  <target name="hudson.daily.build" description="Do nothing for daily QA."/> 
+  
+  <target name="hudson.daily.junit" description="No testing for this system."/>
+   
+  <target name="hudson.daily.javancss" description="No complexity management for this system."/>  
+   
+  <target name="hudson.daily.emma"  description="No coverage management for this system."/>
 
 
 </project>
