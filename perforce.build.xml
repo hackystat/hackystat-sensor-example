@@ -11,6 +11,7 @@
   <property name="perforce.startDay" value="2008/07/14" />
   <property name="perforce.endDay" value="2008/07/16" />
   <property name="perforce.fileNamePrefix" value="file://hackystat" />
+  <property name="perforce.p4ExecutablePath" value="C:\\Program Files\\Perforce\P4.EXE" />
   
   <!--
      Important Note:  This task will not work correctly unless the following properties are 
@@ -19,6 +20,8 @@
      See the StackyHack User Guide for details.
      You will also need to override at least one of the above perforce.* properties. 
    -->
+  
+  <property name="default.sensorbase" value="http://dasha.ics.hawaii.edu:9876/sensorbase"/>
   <target name="perforce.sensor" description="Sends Perforce commit data to Hackystat using the Perforce sensor.">
     <property environment="env" />
     <available file="${env.HACKYSTAT_ANTSENSORS_HOME}/antsensors.jar" type="file" property="hackystat.antsensors.available" />
@@ -27,6 +30,7 @@
 
     <!-- Send Perforce data to Hackystat using the Perforce sensor. -->
     <hacky-perforce depotPath="${perforce.depotPath}"
+                    p4ExecutablePath="${perforce.p4ExecutablePath}"
                     port="${perforce.port}" 
                     userName="${perforce.user}"
                     password="${perforce.password}"
