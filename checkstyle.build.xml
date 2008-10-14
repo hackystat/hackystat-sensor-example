@@ -5,7 +5,7 @@
   </description>
 
   <import file="build.xml" />
-  <property name="checkstyle.version" value="4.3" />
+  <property name="checkstyle.version" value="5.0-beta01" />
   <property name="checkstyle.dir" location="${build.dir}/checkstyle" />
   <property name="checkstyle.jar" value="checkstyle-all-${checkstyle.version}.jar" />
   <property name="checkstyle.failOnViolation" value="false" />
