@@ -13,7 +13,7 @@
   </target>
 
 
-  <target name="jdepend.tool" description="Runs jdepend over the source code to check for problems.">
+  <target name="jdepend.tool" depends="compile" description="Runs jdepend over the source code to check for problems.">
     <mkdir dir="${jdepend.dir}" />
     <available classname="jdepend.xmlui.JDepend" property="jdepend.available" />
     <fail unless="jdepend.available" message="Error: JDepend is not installed correctly. Make sure jdepend-2.9.jar is in ant/lib or supplied on the command line using -lib." />
