@@ -32,7 +32,7 @@
 
     <!-- Invoke XmlData by executing the jar file and passing in command line args. -->
     <java jar="${env.HACKYSTAT_XMLDATA_HOME}/xmldata-cli.jar" fork="true">
-      <arg line="-uniqueTimestamps -file ${sclc.dir}/transform-size.xml" />
+      <arg line="-setRuntime -uniqueTimestamps -file ${sclc.dir}/transform-size.xml" />
     </java>
   </target>
 </project>
