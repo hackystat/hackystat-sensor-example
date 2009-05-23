@@ -85,8 +85,8 @@
   </target>
   
   <target name="emma.sensor" description="Sends Emma coverage data to Hackystat using the Emma sensor.">
-    <ivy:retrieve module="hackystat" organisation="org.hackystat" revision="${hackystat.version}" pattern="${lib.dir}/hackystat/[artifact].[ext]" sync="true" inline="true" log="download-only" conf="ant" transitive="false" type="jar"/>
-    <taskdef resource="antlib.xml" classpath="${lib.dir}/hackystat/antsensors.jar" />
+    <ivy:retrieve module="hackystat" organisation="org.hackystat" revision="${hackystat.version}" pattern="${lib.dir}/hackystat/ant/[artifact].[ext]" sync="true" inline="true" log="download-only" conf="ant" transitive="false" type="jar"/>
+    <taskdef resource="antlib.xml" classpath="${lib.dir}/hackystat/ant/antsensors.jar" />
 
      <!-- Send Coverage data to Hackystat using the Emma sensor. -->
      <hacky-emma verbose="${hackystat.verbose.mode}" failOnError="true">

@@ -1,4 +1,4 @@
-<project name="jdepend" default="jdepend">
+<project name="jdepend" default="jdepend" xmlns:ivy="antlib:org.apache.ivy.ant">
   <description>Runs jdepend.   Invocation: ant -f jdepend.build.xml</description>
 
   <property environment="env" />
@@ -27,9 +27,8 @@
   </target>
 
   <target name="jdepend.sensor" unless="jdepend.disabled" description="Sends coupling data to Hackystat using the JavaNCSS sensor.">
-    <available file="${env.HACKYSTAT_ANTSENSORS_HOME}/antsensors.jar" type="file" property="hackystat.antsensors.available" />
-    <fail message="${env.HACKYSTAT_ANTSENSORS_HOME}/antsensors.jar could not be found." unless="hackystat.antsensors.available" />
-    <taskdef resource="antlib.xml" classpath="${env.HACKYSTAT_ANTSENSORS_HOME}/antsensors.jar" />
+    <ivy:retrieve module="hackystat" organisation="org.hackystat" revision="${hackystat.version}" pattern="${lib.dir}/hackystat/ant/[artifact].[ext]" sync="true" inline="true" log="download-only" conf="ant" transitive="false" type="jar"/>
+    <taskdef resource="antlib.xml" classpath="${lib.dir}/hackystat/ant/antsensors.jar" />
 
     <!-- Send Coupling data to Hackystat using the JavaNCSS sensor. -->
     <hacky-jdepend verbose="${hackystat.verbose.mode}" failOnError="true">

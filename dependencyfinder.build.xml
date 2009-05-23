@@ -43,8 +43,8 @@
 
  
   <target name="dependencyfinder.sensor" unless="dependencyfinder.disabled" description="Sends coupling data to Hackystat using the DependencyFinder sensor.">
-    <ivy:retrieve module="hackystat" organisation="org.hackystat" revision="${hackystat.version}" pattern="${lib.dir}/hackystat/[artifact].[ext]" sync="true" inline="true" log="download-only" conf="ant" transitive="false" type="jar"/>
-    <taskdef resource="antlib.xml" classpath="${lib.dir}/hackystat/antsensors.jar" />
+    <ivy:retrieve module="hackystat" organisation="org.hackystat" revision="${hackystat.version}" pattern="${lib.dir}/hackystat/ant/[artifact].[ext]" sync="true" inline="true" log="download-only" conf="ant" transitive="false" type="jar"/>
+    <taskdef resource="antlib.xml" classpath="${lib.dir}/hackystat/ant/antsensors.jar" />
 
      <hacky-dependencyfinder verbose="${hackystat.verbose.mode}" failOnError="true">
        <datafiles>

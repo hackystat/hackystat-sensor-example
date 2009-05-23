@@ -56,8 +56,8 @@
   </target>
   
   <target name="findbugs.sensor" description="Sends CodeIssue data to Hackystat using the Findbugs sensor.">
-    <ivy:retrieve module="hackystat" organisation="org.hackystat" revision="${hackystat.version}" pattern="${lib.dir}/hackystat/[artifact].[ext]" sync="true" inline="true" log="download-only" conf="ant" transitive="false" type="jar"/>
-    <taskdef resource="antlib.xml" classpath="${lib.dir}/hackystat/antsensors.jar" />
+    <ivy:retrieve module="hackystat" organisation="org.hackystat" revision="${hackystat.version}" pattern="${lib.dir}/hackystat/ant/[artifact].[ext]" sync="true" inline="true" log="download-only" conf="ant" transitive="false" type="jar"/>
+    <taskdef resource="antlib.xml" classpath="${lib.dir}/hackystat/ant/antsensors.jar" />
 
      <!-- Send the code issue information to the hackystat server. -->
      <hacky-findbugs verbose="${hackystat.verbose.mode}" failOnError="true">

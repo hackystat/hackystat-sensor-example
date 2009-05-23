@@ -1,4 +1,4 @@
-<project name="clover" default="clover" xmlns:hackystat="org.hackystat.sensor.ant">
+<project name="clover" default="clover" xmlns:ivy="antlib:org.apache.ivy.ant" xmlns:hackystat="org.hackystat.sensor.ant">
   <description>
     Runs clover on system to generate information on size.
     Invocation: ant -f clover.build.xml
@@ -56,9 +56,8 @@
   </target>
 
   <target name="clover.sensor" unless="clover.disabled" description="Sends Clover coverage data to Hackystat using the Clover sensor.">
-    <available file="${env.HACKYSTAT_ANTSENSORS_HOME}/antsensors.jar" type="file" property="hackystat.antsensors.available" />
-    <fail message="${env.HACKYSTAT_ANTSENSORS_HOME}/antsensors.jar could not be found." unless="hackystat.antsensors.available" />
-    <taskdef resource="antlib.xml" classpath="${env.HACKYSTAT_ANTSENSORS_HOME}/antsensors.jar" />
+    <ivy:retrieve module="hackystat" organisation="org.hackystat" revision="${hackystat.version}" pattern="${lib.dir}/hackystat/ant/[artifact].[ext]" sync="true" inline="true" log="download-only" conf="ant" transitive="false" type="jar"/>
+    <taskdef resource="antlib.xml" classpath="${lib.dir}/hackystat/ant/antsensors.jar" />
 
     <!-- Send Coverage data to Hackystat using the Clover sensor. --> 
     <hacky-clover verbose="${hackystat.verbose.mode}" failOnError="true">

@@ -1,4 +1,4 @@
-<project name="perforce" default="perforce.sensor">
+<project name="perforce" default="perforce.sensor" xmlns:ivy="antlib:org.apache.ivy.ant">
   <description>
   Provides an Ant task to extract Commit data from a Perforce server, then send this data off to Hackystat.
 </description>
@@ -23,10 +23,8 @@
   
   <property name="default.sensorbase" value="http://dasha.ics.hawaii.edu:9876/sensorbase"/>
   <target name="perforce.sensor" description="Sends Perforce commit data to Hackystat using the Perforce sensor.">
-    <property environment="env" />
-    <available file="${env.HACKYSTAT_ANTSENSORS_HOME}/antsensors.jar" type="file" property="hackystat.antsensors.available" />
-    <fail message="${env.HACKYSTAT_ANTSENSORS_HOME}/antsensors.jar could not be found." unless="hackystat.antsensors.available" />
-    <taskdef resource="antlib.xml" classpath="${env.HACKYSTAT_ANTSENSORS_HOME}/antsensors.jar" />
+    <ivy:retrieve module="hackystat" organisation="org.hackystat" revision="${hackystat.version}" pattern="${lib.dir}/hackystat/ant/[artifact].[ext]" sync="true" inline="true" log="download-only" conf="ant" transitive="false" type="jar"/>
+    <taskdef resource="antlib.xml" classpath="${lib.dir}/hackystat/ant/antsensors.jar" />
 
     <!-- Send Perforce data to Hackystat using the Perforce sensor. -->
     <hacky-perforce depotPath="${perforce.depotPath}"

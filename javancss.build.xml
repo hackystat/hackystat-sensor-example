@@ -42,8 +42,8 @@
   </target>
   
   <target name="javancss.sensor"  description="Sends FileMetric complexity data to Hackystat using the JavaNCSS sensor.">
-    <ivy:retrieve module="hackystat" organisation="org.hackystat" revision="${hackystat.version}" pattern="${lib.dir}/hackystat/[artifact].[ext]" sync="true" inline="true" log="download-only" conf="ant" transitive="false" type="jar"/>
-    <taskdef resource="antlib.xml" classpath="${lib.dir}/hackystat/antsensors.jar" />
+    <ivy:retrieve module="hackystat" organisation="org.hackystat" revision="${hackystat.version}" pattern="${lib.dir}/hackystat/ant/[artifact].[ext]" sync="true" inline="true" log="download-only" conf="ant" transitive="false" type="jar"/>
+    <taskdef resource="antlib.xml" classpath="${lib.dir}/hackystat/ant/antsensors.jar" />
 
       <!-- Send FileMetric complexity test data to Hackystat using the JavaNCSS sensor. -->
       <hacky-javancss verbose="${hackystat.verbose.mode}" failOnError="true">

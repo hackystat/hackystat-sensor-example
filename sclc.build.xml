@@ -12,7 +12,7 @@
   <!-- Download SCLC from Ivy if necessary. -->
   <property name="sclc.version" value="2.7.428" />
   <property name="sclc.install.dir" location="${lib.dir}/sclc" />
-  <ivy:retrieve module="sclc" organisation="edu.hawaii" revision="${sclc.version}" pattern="${lib.dir}/sclc/[artifact].[ext]" sync="true" inline="true" log="download-only" type="script"/>
+  <ivy:retrieve module="sclc" organisation="edu.hawaii.ics.csdl" revision="${sclc.version}" pattern="${lib.dir}/sclc/[artifact].[ext]" sync="true" inline="true" log="download-only" type="script"/>
 
   <!-- Download the sclc.xsl file if necessary. -->
    <property name="sclc.xsl.file" location="${configfiles.dir}/sclc.xsl"/>
@@ -31,13 +31,13 @@
   </target>
   
   <target name="sclc.sensor" depends="sclc.install.xsl.file" description="Sends data to Hackystat via the XmlData sensor.">
-    <ivy:retrieve module="hackystat" organisation="org.hackystat" revision="${hackystat.version}" pattern="${lib.dir}/hackystat/[artifact].[ext]" sync="true" inline="true" log="download-only" conf="xmldata" transitive="false" type="jar"/>
+    <ivy:retrieve module="hackystat" organisation="org.hackystat" revision="${hackystat.version}" pattern="${lib.dir}/hackystat/xmldata/[artifact].[ext]" sync="true" inline="true" log="download-only" conf="xmldata" transitive="false" type="jar"/>
 
      <!-- Transform the data into a format suitable for input to the hackystat xml data sensor. -->
      <xslt in="${sclc.dir}/size.xml" out="${sclc.dir}/hackystat-size.xml" style="${sclc.xsl.file}" />
 
     <!-- Invoke XmlData by executing the jar file and passing in command line args. -->
-     <java jar="${lib.dir}/hackystat/xmldata-cli.jar" fork="true">
+     <java jar="${lib.dir}/hackystat/xmldata/xmldata-cli.jar" fork="true">
        <arg line="-setRuntime -uniqueTimestamps -file ${sclc.dir}/hackystat-size.xml" />
      </java>
    </target>
