@@ -24,10 +24,10 @@
   </target>
 
   <target name="pmd"
-          depends="pmd.install.rulesets.file, pmd.tool, pmd.report, pmd.sensor"
+          depends="pmd.tool, pmd.report, pmd.sensor"
           description="Runs the PMD tool, report" />
 
-  <target name="pmd.tool"
+  <target name="pmd.tool" depends="pmd.install.rulesets.file"
           description="Runs PMD over the source code to check for problems.">
     <taskdef name="pmd" classname="net.sourceforge.pmd.ant.PMDTask">
       <classpath>
