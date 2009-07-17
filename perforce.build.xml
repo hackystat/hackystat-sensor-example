@@ -22,11 +22,7 @@
    -->
   
   <property name="default.sensorbase" value="http://dasha.ics.hawaii.edu:9876/sensorbase"/>
-  <target name="perforce.sensor" description="Sends Perforce commit data to Hackystat using the Perforce sensor.">
-    <ivy:retrieve module="hackystat" organisation="org.hackystat" revision="${hackystat.version}" pattern="${lib.dir}/hackystat/ant/[artifact].[ext]" sync="true" inline="true" log="download-only" conf="ant" transitive="false" type="jar"/>
-    <taskdef resource="antlib.xml" classpath="${lib.dir}/hackystat/ant/antsensors.jar" />
-
-    <!-- Send Perforce data to Hackystat using the Perforce sensor. -->
+  <target name="perforce.sensor" depends="define-sensors" if="hackystat.enabled" description="Sends Perforce commit data to Hackystat using the Perforce sensor.">
     <hacky-perforce depotPath="${perforce.depotPath}"
                     p4ExecutablePath="${perforce.p4ExecutablePath}"
                     port="${perforce.port}" 

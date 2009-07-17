@@ -16,11 +16,7 @@
   <fail message="Must specify -Ddefault.password={pw} on command line." unless="default.password"/>
   <fail message="Must specify -Ddefault.sensorbase={sensorbase} on command line." unless="default.sensorbase"/>
 
-  <target name="svn.sensor" description="Sends Subversion commit data to Hackystat using the Subversion sensor.">
-    <ivy:retrieve module="hackystat" organisation="org.hackystat" revision="${hackystat.version}" pattern="${lib.dir}/hackystat/ant/[artifact].[ext]" sync="true" inline="true" log="download-only" conf="ant" transitive="false" type="jar"/>
-    <taskdef resource="antlib.xml" classpath="${lib.dir}/hackystat/ant/antsensors.jar" />
-
-    <!-- Send Subversion data to Hackystat using the Subversion sensor. -->
+  <target name="svn.sensor" depends="define-sensors" if="hackystat.enabled" description="Sends Subversion commit data to Hackystat using the Subversion sensor.">
     <hacky-svn repositoryName="${svn.repository.name}" 
                repositoryUrl="${svn.repository.url}" 
                fileNamePrefix="file://hackystat-sensor-xmldata"

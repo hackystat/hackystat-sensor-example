@@ -6,17 +6,18 @@
   </description>
   
   <import file="build.xml"/>
-  <property name="checkstyle.version" value="5.0" />
   <property name="checkstyle.dir" location="${build.dir}/checkstyle/"/>
   <property name="checkstyle.install.dir" location="${lib.dir}/checkstyle"/>
   <property name="checkstyle.jar" value="checkstyle-all.jar"/>
   <property name="checkstyle.failOnViolation" value="false"/>
-  <property name="checkstyle.config.file" value="checkstyle.modules.xml"/>
+  <property name="checkstyle.config.file" value="hackystat.checkstyle.xml"/>
   <property name="checkstyle.config.file.path" location="${configfiles.dir}/${checkstyle.config.file}"/>
-  
-  <!-- Make sure Checkstyle is installed (using Ivy) and the local config file is downloaded. -->
-  <ivy:retrieve module="checkstyle" organisation="com.puppycrawl" revision="${checkstyle.version}" pattern="${lib.dir}/checkstyle/[artifact].[ext]" sync="true" inline="true" log="download-only" conf="bundled" transitive="false" type="jar,report"/>
+
   <available file="${checkstyle.config.file.path}" type="file" property="checkstyle.config.available" />
+
+  <target name="install-checkstyle" depends="install-ivy" description="Install checkstyle if necessary.">
+    <ivy:retrieve module="checkstyle" organisation="com.puppycrawl" revision="${checkstyle.version}" pattern="${lib.dir}/checkstyle/[artifact].[ext]" sync="true" inline="true" log="download-only" conf="bundled" transitive="false" type="jar,report"/>
+  </target>
 
   <target name="checkstyle.install.config.file" unless="checkstyle.config.available">
     <get src="${configfiles.url}/${checkstyle.config.file}"
@@ -28,7 +29,7 @@
     <path refid="compile.classpath"/>
   </path>
 
-  <target name="checkstyle" depends="compile, checkstyle.tool, checkstyle.report, checkstyle.sensor" 
+  <target name="checkstyle" depends="compile, install-checkstyle, checkstyle.tool, checkstyle.report, checkstyle.sensor" 
       description="Runs Checkstyle."/>
 
   <target name="checkstyle.tool" depends="checkstyle.install.config.file" description="Checks the style of the sources and reports issues.">
@@ -52,11 +53,8 @@
     </xslt>
   </target>
   
-  <target name="checkstyle.sensor"  description="Sends CodeIssue data to Hackystat using the Checkstyle Sensor.">
-    <ivy:retrieve module="hackystat" organisation="org.hackystat" revision="${hackystat.version}" pattern="${lib.dir}/hackystat/ant/[artifact].[ext]" sync="true" inline="true" log="download-only" conf="ant" transitive="false" type="jar"/>
-    <taskdef resource="antlib.xml" classpath="${lib.dir}/hackystat/ant/antsensors.jar" />
 
-    <!-- Send Checkstyle data to hackystat using the Checkstyle sensor. -->
+  <target name="checkstyle.sensor" depends="define-sensors" if="hackystat.enabled" description="Sends CodeIssue data to Hackystat using the Checkstyle Sensor.">
     <hacky-checkstyle verbose="${hackystat.verbose.mode}" failOnError="true">
       <datafiles>
         <fileset file="${checkstyle.dir}/checkstyle.xml" />

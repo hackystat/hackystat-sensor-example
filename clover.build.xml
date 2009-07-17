@@ -55,10 +55,7 @@
     <delete dir="${build.dir}/classes" />
   </target>
 
-  <target name="clover.sensor" unless="clover.disabled" description="Sends Clover coverage data to Hackystat using the Clover sensor.">
-    <ivy:retrieve module="hackystat" organisation="org.hackystat" revision="${hackystat.version}" pattern="${lib.dir}/hackystat/ant/[artifact].[ext]" sync="true" inline="true" log="download-only" conf="ant" transitive="false" type="jar"/>
-    <taskdef resource="antlib.xml" classpath="${lib.dir}/hackystat/ant/antsensors.jar" />
-
+  <target name="clover.sensor" depends="define-sensors" if="hackystat.enabled" description="Sends Clover coverage data to Hackystat using the Clover sensor.">
     <!-- Send Coverage data to Hackystat using the Clover sensor. --> 
     <hacky-clover verbose="${hackystat.verbose.mode}" failOnError="true">
       <datafiles>

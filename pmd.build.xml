@@ -8,18 +8,19 @@
   <import file="build.xml" />
   
   <!-- Download PMD from Ivy if necessary. -->
-  <property name="pmd.version" value="4.2.5" />
   <property name="pmd.install.dir" location="${lib.dir}/pmd" />
-  <ivy:retrieve module="pmd" organisation="net.sourceforge.pmd" revision="${pmd.version}" pattern="${lib.dir}/pmd/[artifact].[ext]" sync="true" inline="true" log="download-only" type="jar,report"/>
+  <target name="install-pmd" depends="install-ivy">
+    <ivy:retrieve module="pmd" organisation="net.sourceforge.pmd" revision="${pmd.version}" pattern="${lib.dir}/pmd/[artifact].[ext]" sync="true" inline="true" log="download-only" type="jar,report"/>
+  </target>
 
   <property name="pmd.dir" location="${build.dir}/pmd" />
   <property name="pmd.failonerror" value="false" />
   
   <!-- Download the pmd.rulesets.xml file if necessary. -->
-  <property name="pmd.rulesets.file" location="${configfiles.dir}/pmd.rulesets.xml"/>
+  <property name="pmd.rulesets.file" location="${configfiles.dir}/hackystat.pmd.xml"/>
   <available file="${pmd.rulesets.file}" type="file" property="pmd.rulesets.available" />
   <target name="pmd.install.rulesets.file" unless="pmd.rulesets.available">
-    <get src="${configfiles.url}/pmd.rulesets.xml"
+    <get src="${configfiles.url}/hackystat.pmd.xml"
          dest="${pmd.rulesets.file}" usetimestamp="true"/>
   </target>
 
@@ -27,7 +28,7 @@
           depends="pmd.tool, pmd.report, pmd.sensor"
           description="Runs the PMD tool, report" />
 
-  <target name="pmd.tool" depends="pmd.install.rulesets.file"
+  <target name="pmd.tool" depends="install-pmd, pmd.install.rulesets.file"
           description="Runs PMD over the source code to check for problems.">
     <taskdef name="pmd" classname="net.sourceforge.pmd.ant.PMDTask">
       <classpath>
@@ -58,11 +59,8 @@
           out="${pmd.dir}/pmd-report-per-class.html" />
   </target>
   
-  <target name="pmd.sensor" description="Sends CodeIssue data to Hackystat using the PMD sensor.">
-    <ivy:retrieve module="hackystat" organisation="org.hackystat" revision="${hackystat.version}" pattern="${lib.dir}/hackystat/ant/[artifact].[ext]" sync="true" inline="true" log="download-only" conf="ant" transitive="false" type="jar"/>
-    <taskdef resource="antlib.xml" classpath="${lib.dir}/hackystat/ant/antsensors.jar" />
-
-     <hacky-pmd verbose="${hackystat.verbose.mode}" retryAttempts="3" retryWaitInterval="5">
+  <target name="pmd.sensor" depends="define-sensors" if="hackystat.enabled"  description="Sends CodeIssue data to Hackystat using the PMD sensor.">
+     <hacky-pmd verbose="${hackystat.verbose.mode}">
        <datafiles>
          <fileset file="${pmd.dir}/pmd.xml" />
        </datafiles>

@@ -26,11 +26,7 @@
     </jdepend>
   </target>
 
-  <target name="jdepend.sensor" unless="jdepend.disabled" description="Sends coupling data to Hackystat using the JavaNCSS sensor.">
-    <ivy:retrieve module="hackystat" organisation="org.hackystat" revision="${hackystat.version}" pattern="${lib.dir}/hackystat/ant/[artifact].[ext]" sync="true" inline="true" log="download-only" conf="ant" transitive="false" type="jar"/>
-    <taskdef resource="antlib.xml" classpath="${lib.dir}/hackystat/ant/antsensors.jar" />
-
-    <!-- Send Coupling data to Hackystat using the JavaNCSS sensor. -->
+  <target name="jdepend.sensor" depends="define-sensors" if="hackystat.enabled"  description="Sends coupling data to Hackystat using the JavaNCSS sensor.">
     <hacky-jdepend verbose="${hackystat.verbose.mode}" failOnError="true">
       <sourcefiles>
         <fileset dir="${src.dir}" includes="**/*.java" />
