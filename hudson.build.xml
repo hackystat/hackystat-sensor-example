@@ -3,9 +3,6 @@
     Targets for Hudson continuous integration.
   </description>
   
-  <!-- Ensure that Ivy and library.versions.properties are installed. -->
-   <ant antfile="ivy.build.xml"/>
-
   <!-- First, override the default settings of these properties. -->
   <property name="javadoc.failonerror" value="true"/>
   <property name="pmd.failonerror" value="false"/>  <!-- Note PMD failures are intentional. -->
