@@ -1,0 +1,50 @@
+<project name="jar" default="publish" xmlns:ivy="antlib:org.apache.ivy.ant">
+  <description>
+  Provides the targets for building jar files. 
+  </description>
+
+  <import file="build.xml" />
+  <property name="tmp.dir" location="${basedir}/tmp" />
+  <property name="tmp.lib.dir" location="${basedir}/tmp-lib" />
+  <property name="build.jar.dir" location="${build.dir}/jar" />
+  <delete dir="${build.jar.dir}" quiet="true" />
+
+  <target name="jar" depends="compile" description="Create stack.jar">
+    <!-- Define the directories and distribution name -->
+    <mkdir dir="${tmp.dir}" />
+    <mkdir dir="${build.jar.dir}" />
+    <copy todir="${tmp.dir}">
+      <fileset dir="${basedir}/build/classes" />
+    </copy>
+    <jar destfile="${build.jar.dir}/stack.jar" basedir="${tmp.dir}">
+      <manifest>
+        <attribute name="Main-Class" value="edu.hawaii.stack.Stack" />
+        <attribute name="Implementation-Title" value="Hackystat Developer Examples" />
+        <attribute name="Implementation-Version" value="${version}" />
+        <attribute name="Implementation-Vendor" value="Collaborative Software Development Laboratory, University of Hawaii" />
+      </manifest>
+    </jar>
+    <delete dir="${tmp.dir}" />
+  </target>
+
+  <!--
+     Ivy publication targets.
+   -->
+  <import file="javadoc.build.xml" />
+  <target name="publish" depends="jar, javadoc.zip" description="Publish this project in the local ivy repository">
+    <ivy:resolve />
+    <tstamp>
+      <format property="publication-revision" pattern="yyyy.MM.dd.HH.mm.ss" />
+    </tstamp>
+    <ivy:publish artifactspattern="${build.jar.dir}/[artifact].[ext]" resolver="local-repository" pubrevision="${publication-revision}" update="true" />
+  </target>
+
+  <target name="publish-all" description="Publish all dependent projects, then this one.">
+    <!-- 
+       Here is what a dependent target might look like, although we don't actually have any in this system.
+       <ant antfile="../hackystat-sensorbase-uh/jar.build.xml" target="publish-all" inheritAll="false"/>
+     -->
+    <antcall target="publish" />
+  </target>
+</project>
+
